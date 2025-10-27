@@ -18,11 +18,11 @@ public class Alert {
     private Long id;
 
     // 별도 enum 필요시 교체
-    @Column(name = "alerm_type", nullable = false)
+    @Column(name = "alert_type", nullable = false)
     private Integer alarmType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
     @ManyToOne(fetch = FetchType.LAZY)

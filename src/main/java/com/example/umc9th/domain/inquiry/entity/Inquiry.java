@@ -22,7 +22,7 @@ public class Inquiry {
     @Column(name = "content", nullable = false, length = 300)
     private String content;
 
-    @Column(name = "photo", length = 60)
+    @Column(name = "photo", length = 1023)
     private String photo;
 
     @ManyToOne(fetch = FetchType.LAZY)

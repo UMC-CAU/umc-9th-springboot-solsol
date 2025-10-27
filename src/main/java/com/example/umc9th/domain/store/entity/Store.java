@@ -21,7 +21,7 @@ public class Store extends BaseEntity {
     private String name;
 
     @Column(name = "rate", nullable = false)
-    private Integer rate;
+    private Float rate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "region_id", nullable = false)
