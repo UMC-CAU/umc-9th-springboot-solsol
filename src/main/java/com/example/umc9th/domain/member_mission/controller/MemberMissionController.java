@@ -6,10 +6,7 @@ import com.example.umc9th.domain.member_mission.service.MemberMissionService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -35,5 +32,12 @@ public class MemberMissionController {
         System.out.println("region = " + region);
         Integer count = memberMissionService.countMemberMissionsByRegionAndMember(region, memberId);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, count);
+    }
+
+    @PostMapping("/{missionId}/challenge")
+    public ApiResponse<Long> challengeMission(@PathVariable Long missionId,
+                                              @RequestParam Long memberId) {
+        Long memberMissionId = memberMissionService.challengeMission(missionId, memberId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, memberMissionId);
     }
 }
