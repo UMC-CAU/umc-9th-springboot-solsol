@@ -3,8 +3,9 @@ package com.example.umc9th.domain.mission.controller;
 import com.example.umc9th.domain.mission.dto.MissionResponse;
 import com.example.umc9th.domain.mission.entity.Mission;
 import com.example.umc9th.domain.mission.service.MissionService;
+import com.example.umc9th.global.apiPayload.ApiResponse;
+import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -21,7 +22,7 @@ public class MissionController {
     private final MissionService missionService;
 
     @GetMapping
-    public ResponseEntity<List<MissionResponse>> getMissions(@RequestParam String region) {
+    public ApiResponse<List<MissionResponse>> getMissions(@RequestParam String region) {
         List<Mission> missions = missionService.getMissionsByRegion(region);
         List<MissionResponse> body = missions.stream()
                 .map(m -> new MissionResponse(
@@ -32,6 +33,6 @@ public class MissionController {
                         m.getStore().getName()
                 ))
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(body);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, body);
     }
 }
