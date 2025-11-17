@@ -1,14 +1,18 @@
 package com.example.umc9th.domain.review.service;
 
+import com.example.umc9th.domain.review.entity.QReview;
 import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.domain.review.repository.ReviewRepository;
 import com.example.umc9th.domain.store.entity.Store;
 import com.example.umc9th.domain.store.repository.StoreRepository;
 import com.example.umc9th.domain.member.entity.Member;
 import com.example.umc9th.domain.member.repository.MemberRepository;
+import com.querydsl.core.BooleanBuilder;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -41,4 +45,44 @@ public class ReviewService {
 
         return reviewRepository.save(review).getId();
     }
+
+    @Transactional
+    public List<Review> searchReviews(String query, String type) {
+
+        //Q클래스 정의
+        QReview review = QReview.review;
+
+        //BooleanBuilder 정의
+        BooleanBuilder builder = new BooleanBuilder();
+
+        //BooleanBuilder 사용
+
+        //동적 쿼리: 검색 조건
+        if(type.equals("region")) {
+            builder.and(review.store.region.name.contains(query));
+        }
+        if(type.equals("rate")) {
+            builder.and(review.rate.goe(Float.parseFloat(query)));
+        }
+        if(type.equals("both")){
+
+            // & 기준 변환
+            String firstQuery = query.split("&")[0];
+            String secondQuery = query.split("&")[1];
+
+            //firstQuery, secondQuery 로그 출력
+            System.out.println("firstQuery: " + firstQuery);
+            System.out.println("secondQuery: " + secondQuery);
+
+            //동적 쿼리
+            builder.and(review.store.region.name.contains(firstQuery));
+            builder.and(review.rate.goe(Float.parseFloat(secondQuery)));
+
+
+
+        }
+        List<Review> reviewList = reviewRepository.searchReview(builder);
+        return reviewList;
+    }
+
 }
