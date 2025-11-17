@@ -1,10 +1,10 @@
 package com.example.umc9th.domain.member.controller;
 
-import com.example.umc9th.domain.member.dto.MemberReqDTO;
-import com.example.umc9th.domain.member.dto.MemberResDTO;
-import com.example.umc9th.domain.member.exception.code.MemberSuccessCode;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.example.umc9th.domain.member.entity.Member;
 import com.example.umc9th.domain.member.service.MemberService;
@@ -22,12 +22,5 @@ public class MemberController {
     public ApiResponse<Member> getMember(@PathVariable Long memberId) {
         Member member = memberService.getMemberById(memberId);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, member);
-    }
-
-    // 회원가입
-    @PostMapping("/sign-up")
-    public ApiResponse<MemberResDTO.JoinDTO> signUp(@RequestBody MemberReqDTO.JoinDTO dto) {
-        MemberResDTO.JoinDTO res = memberService.signUp(dto);
-        return ApiResponse.onSuccess(MemberSuccessCode.FOUND, res);
     }
 }

@@ -1,3 +1,5 @@
+package com.example.umc9th.domain.member.converter;
+
 import com.example.umc9th.domain.member.dto.MemberReqDTO;
 import com.example.umc9th.domain.member.dto.MemberResDTO;
 import com.example.umc9th.domain.member.entity.Member;
