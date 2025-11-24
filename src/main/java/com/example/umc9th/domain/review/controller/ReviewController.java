@@ -1,5 +1,8 @@
 package com.example.umc9th.domain.review.controller;
 
+
+import com.example.umc9th.domain.review.dto.ReviewResponse;
+import com.example.umc9th.domain.review.entity.Review;
 import com.example.umc9th.domain.review.service.ReviewService;
 import com.example.umc9th.global.apiPayload.ApiResponse;
 import com.example.umc9th.global.apiPayload.code.GeneralSuccessCode;
@@ -9,6 +12,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/reviews")
@@ -32,5 +39,16 @@ public class ReviewController {
         public CreateReviewRequest() {}
         public String getContent() { return content; }
         public Float getRate() { return rate; }
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ReviewResponse>> getReviews(
+            @RequestParam String query,
+            @RequestParam String type) {
+        List<Review> reviews = reviewService.searchReviews(query, type);
+        List<ReviewResponse> body = reviews.stream()
+                .map(ReviewResponse::from)
+                .toList();
+        return ResponseEntity.ok(body);
     }
 }
